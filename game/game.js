@@ -4,7 +4,7 @@ const byId = Object.fromEntries(catalog.map(e => [e.id, e]));
 
 // Stage 1 buttons (match your mockup order)
 const STAGE_ENZYMES = JSON.parse(localStorage.getItem('selectedEnzymes') || '[]');
-
+//       // TODO: move
 // Render enzyme buttons with picture icons
 const actions = document.getElementById('actions');
 actions.innerHTML = STAGE_ENZYMES.map(id => {
@@ -15,28 +15,6 @@ actions.innerHTML = STAGE_ENZYMES.map(id => {
   return `<button class="enzyme-btn" data-id="${id}">${icon}<span>${e.name}</span></button>`;
 }).join('');
 
-// // Example click logic: make HELICASE the correct one to “uncoil”
-// actions.querySelectorAll('.enzyme-btn').forEach(btn => {
-//   btn.addEventListener('click', () => {
-//     const id = btn.getAttribute('data-id');
-
-//     // demo feedback
-//     if (id === 'helicase') {
-//       btn.classList.add('correct');
-//       // TODO: move to next scene/animate DNA, etc.
-//       console.log('Correct: helicase chosen');
-//     } else {
-//       btn.classList.add('wrong');
-//       setTimeout(() => btn.classList.remove('wrong'), 600);
-//     }
-//   });
-
-
-
-
-
-// });
-
 let currentStep = 1;
 let templateDNA = '';
 
@@ -46,6 +24,8 @@ const inputBox       = document.getElementById('input-container');
 const randomDNABox   = document.getElementById('random-dna-container');
 const userInputEl    = document.getElementById('user-input');
 const checkBtn       = document.getElementById('check-btn');
+const textChoose     = document.getElementById('text-choose');
+
 
 function generateRandomDNA(len = 6){
   const bases = ['A','T','C','G'];
@@ -65,6 +45,28 @@ function setImageSequence(paths, delays){
   // simple small animation sequence
   paths.forEach((src, i) => setTimeout(() => { imageEl.src = src; }, delays[i] || 0));
 }
+function expectedEnzymeId(step){
+  switch (step) {
+    case 1: return 'topoisomerase';
+    case 2: return 'helicase';
+    case 3: return 'SSB_Protein';
+    case 4: return 'primase';
+    case 5: return 'dna_pol_iii'; // เปิด input
+    case 6: return 'dna_pol_i';
+    case 7: return 'ligase';
+    default: return null;
+  }
+}
+function flash(btn, ok){
+  if (ok) {
+    btn.classList.add('correct');
+  } else {
+    btn.classList.add('wrong');
+    setTimeout(()=>btn.classList.remove('wrong'), 1000);
+  }
+}
+const DELAY_OK_MS = 1000;
+
 
 // ------- main step logic -------
 let awaitingComplement = false;
@@ -73,6 +75,7 @@ function chooseEnzyme(enzymeId){
   switch (currentStep) {
     case 1: // Topoisomerase
       if (enzymeId === 'topoisomerase') {
+        
         instructions.textContent = 'Great! DNA is relaxing…'; instructions.style.color = 'green';
         setImageSequence(
           ['../image/topo1.jpg','../image/topo2.jpg','../image/topo3.jpg','../image/topo4.jpg','../image/uncoiledDNA.jpg'],
@@ -118,9 +121,9 @@ function chooseEnzyme(enzymeId){
 
     case 5: // waiting for user to type complement (handled by CHECK button)
       if (enzymeId === 'dna_pol_iii' && !awaitingComplement) {
+        textChoose.classList.add('hidden');
         imageEl.src = '../image/dnapol3.jpg';
         instructions.textContent = 'Enter the complementary strand and press CHECK.'; instructions.style.color = 'green';
-        // show the input ONLY now
         templateDNA = generateRandomDNA(6);
         randomDNABox.textContent = `Template Strand: ${templateDNA}`;
         userInputEl.value = '';
@@ -147,16 +150,25 @@ function chooseEnzyme(enzymeId){
       if (enzymeId === 'ligase') {
         instructions.textContent = 'Congrats! Ligase sealed the gaps!'; instructions.style.color = 'green';
         imageEl.src = '../image/ligase.jpg';
+        textChoose.classList.add('hidden');
+
 
         setTimeout(() => {
           instructions.textContent = 'You finished the game! Refresh to play again.'; instructions.style.color = 'green';
           imageEl.src = '../image/ligase.jpg';
           imageEl.src = '../image/DNA-finish.jpg';
         }, 3000);
+        currentStep = 8;
       } else {
         instructions.textContent = 'The gaps have not been sealed!!'; instructions.style.color = 'red';
       }
       break;
+    case 8:
+      instructions.textContent = 'You finished the game! Refresh to play again.'; instructions.style.color = 'green';
+      imageEl.src = '../image/ligase.jpg';
+      imageEl.src = '../image/DNA-finish.jpg';
+        
+
 
   }
 }
@@ -176,9 +188,12 @@ checkBtn.addEventListener('click', () => {
     imageEl.src = '../image/completestrand.jpg';
     inputBox.classList.add('hidden');
     currentStep = 6; // move to next enzyme (DNA Pol I)
+    if (textChoose) textChoose.classList.remove('hidden'); 
+
   } else {
     instructions.textContent = 'Incorrect complementary strand. Try again!'; instructions.style.color = 'red';
   }
+
 });
 
 // hook up buttons
@@ -191,7 +206,24 @@ actions.querySelectorAll('.enzyme-btn').forEach(btn => {
       return; // ไม่ทำอะไรต่อ
     }
     
-    chooseEnzyme(id);
+    
+
+    const expected = expectedEnzymeId(currentStep);
+    const isCorrect = (currentStep === 5) ? (id === 'dna_pol_iii') : (id === expected);
+
+    if(currentStep === 8){
+      return;
+    }
+    if (isCorrect) {
+      btn.classList.add('correct');
+      setTimeout(() => {
+        chooseEnzyme(id);
+        btn.classList.remove('correct');
+      }, DELAY_OK_MS); // รอ 5 วิ
+    } else {
+      flash(btn, false);
+      chooseEnzyme(id);
+    }
   });
 });
 
@@ -211,7 +243,9 @@ function handleCheck() {
     imageEl.src = '../image/completestrand.jpg';
     inputBox.classList.add('hidden');   // ← ซ่อนอินพุตเมื่อถูก
     awaitingComplement = false;
-    currentStep = 6;                    // ← ค่อยขยับขั้นตอนที่นี่
+    currentStep = 6;                    
+    if (textChoose) textChoose.classList.remove('hidden');  
+
   } else {
     instructions.textContent = 'Incorrect complementary strand. Try again!'; instructions.style.color = 'red';
   }
@@ -227,3 +261,4 @@ userInputEl.addEventListener('keydown', (e) => {
     handleCheck();
   }
 });
+
