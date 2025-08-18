@@ -16,7 +16,7 @@ const ENZYMES = [
   { id: "dna_pol_i", name: "DNA Polymerase I", img: "../image/DNA_pol_i.png" },
   {
     id: "SSB_Protein",
-    name: "SSB_Protein",
+    name: "SSB Protein",
     img: "../image/SSB_Protein-fotor-bg-remover-20250811192919.png",
   },
   { id: "oxidoreductase", name: "Oxidoreductase", img: "../image/Oxidoreductase.png" },
@@ -54,19 +54,6 @@ document.getElementById("goBtn").addEventListener("click", (e) => {
   window.location.href = '../game/game.html';
 });
 
-// ---------- functions ----------
-// function cardHTML(e){
-//   return `
-//     <article class="card" data-id="${e.id}">
-//       <div class="circle" style="background:${e.color}"></div>
-//       <div class="controls">
-//         <button class="ctrl plus" title="Add ${e.name}" aria-label="Add ${e.name}">+</button>
-//         <button class="ctrl minus" title="Remove ${e.name}" aria-label="Remove ${e.name}">−</button>
-//       </div>
-//       <div class="label">${e.name}</div>
-//     </article>
-//   `;
-// }
 
 function cardHTML(e) {
   return `
@@ -83,15 +70,7 @@ function cardHTML(e) {
   `;
 }
 
-// function attachCardHandlers() {
-//   grid.querySelectorAll(".card").forEach((card) => {
-//     const id = card.getAttribute("data-id");
-//     card.querySelector(".plus").addEventListener("click", () => addEnzyme(id));
-//     card
-//       .querySelector(".minus")
-//       .addEventListener("click", () => removeEnzyme(id));
-//   });
-// }
+
 
 function attachCardHandlers(){
   grid.querySelectorAll('.card').forEach(card => {

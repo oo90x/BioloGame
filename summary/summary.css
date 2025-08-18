@@ -1,0 +1,83 @@
+:root{
+  --bg:#fdecae;
+  --deep:#2f5648;      /* สีเขียวเข้มของแท่ง */
+  --text:#0f0f0f;
+  --shadow:0 10px 0 rgba(0,0,0,.15);
+  --badge-green:#33b164; /* สีตัวเลขใน badge */
+}
+
+*{ box-sizing:border-box }
+html,body{ height:100% }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family: 'Luckiest Guy', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  letter-spacing:.5px;
+}
+
+/* Top bar */
+.topbar{
+  display:flex; align-items:center; gap:10px;
+  padding:18px 26px 0;
+}
+.topbar .back{
+  text-decoration:none; color:#111; font-size:40px; line-height:1;
+}
+.topbar .title{
+  flex:1; text-align:center;
+  margin:0 24px 6px;
+  font-size:48px; letter-spacing:2px;
+}
+
+/* Content wrapper */
+.wrap{
+  max-width:980px;
+  margin: 24px auto 60px;
+  padding: 0 28px;
+}
+
+/* Labels row */
+.labels{
+  display:flex; align-items:center; justify-content:space-between;
+  margin: 26px 14px 12px;
+}
+.label-left, .label-right{
+  font-size:28px;
+  text-decoration: underline;
+}
+
+/* Lesson rows */
+.row{
+  position:relative;
+  background:var(--deep);
+  border-radius:32px;
+  height:74px;
+  margin:20px 0;
+  box-shadow: var(--shadow);
+  display:flex; align-items:center;
+  padding: 0 28px;
+  color:#fff;
+  border:2px solid rgba(0,0,0,.25);
+}
+.row .row-title{
+  font-size:26px;
+}
+
+/* Badge (ขวาสุด) */
+.badge{
+  margin-left:auto;
+  background:#fff;
+  color:var(--badge-green);
+  font-size:24px;
+  min-width:74px;
+  height:46px;
+  padding: 0 16px;
+  border-radius:999px;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 6px 0 rgba(0,0,0,.12);
+  border:2px solid rgba(0,0,0,.12);
+}
+
+/* empty rows same look butไม่มีข้อความ/คะแนน */
+.row-empty{ color:transparent }

@@ -157,6 +157,26 @@ body {
 }
 #check-btn{ background:green;font-size:50px; color: white; }
 
+/* กล่องคะแนนและ +1 */
+.score-hud{
+  position: fixed; right: 20px; top: 20px; z-index: 9999;
+  font-family: 'Luckiest Guy', sans-serif;
+  color:#111;
+}
+.score-hud .score-badge{
+  background:#fff; box-shadow:0 10px 0 rgba(0,0,0,.15);
+  padding:8px 14px; border-radius:14px; display:inline-block;
+}
+.plus-one{
+  position: fixed; right: 24px; top: 64px; z-index: 10000;
+  font-size: 32px; font-weight: 700; color:#2e7d32; /* เขียว */
+  opacity: 0; transition: opacity .2s ease, transform .2s ease;
+  transform: translateY(10px);
+}
+.plus-one.show{
+  opacity: 1; transform: translateY(0);
+}
+
 .enzyme-btn.correct { background:#4caf50; opacity:0.85; color:#fff; }
 .enzyme-btn.wrong   { background:#f44336; opacity:0.85; color:#fff; }
 
