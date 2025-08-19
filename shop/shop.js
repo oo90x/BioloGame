@@ -9,13 +9,6 @@ const cfgMap = {
   translation: '../mode/translation/config.js',
 };
 
-// // โหลด config ของโหมด
-// const { ENZYMES: CATALOG, MAX_SCORE } = await import(cfgMap[mode]);
-
-// // เก็บค่า mode และ max score ไว้ให้ game.js ใช้
-// localStorage.setItem('currentMode', mode);
-// localStorage.setItem(`${mode}Max`, String(MAX_SCORE));
-
 let CATALOG = [];
 let MAX_SCORE = 8; 
 
@@ -41,33 +34,6 @@ try {
 
 localStorage.setItem('currentMode', mode);
 localStorage.setItem(`${mode}Max`, String(MAX_SCORE));
-
-
-
-
-// const ENZYMES = [
-//   {
-//     id: "topoisomerase",
-//     name: "Topoisomerase",
-//     img: "../image/Topoisomerase.png",
-//   },
-//   { id: "helicase", name: "Helicase", img: "../image/helicase.png" },
-//   { id: "primase", name: "Primase", img: "../image/primase.png" },
-//   { id: "ligase", name: "Ligase", img: "../image/ligase.png" },
-//   {
-//     id: "dna_pol_iii",
-//     name: "DNA Polymerase III",
-//     img: "../image/DNA_pol_iii.png",
-//   },
-//   { id: "dna_pol_i", name: "DNA Polymerase I", img: "../image/DNA_pol_i.png" },
-//   {
-//     id: "SSB_Protein",
-//     name: "SSB Protein",
-//     img: "../image/SSB_Protein-fotor-bg-remover-20250811192919.png",
-//   },
-//   { id: "oxidoreductase", name: "Oxidoreductase", img: "../image/Oxidoreductase.png" },
-//   { id: "amylase", name: "Amylase", color: "#39B4E6" },
-// ];
 
 const LS_KEY = "selectedEnzymes";
 
