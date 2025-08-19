@@ -1,4 +1,4 @@
-export const MAX_SCORE = 8;
+export const MAX_SCORE = 3;
 
 // ปุ่ม/ไอคอนที่ใช้ใน shop & track ด้านล่าง (รวมถึง id ที่ใช้ตอบ)
 export const CATALOG = [
@@ -14,6 +14,8 @@ export const CATALOG = [
   { id: "Transcription_Factor", name: "Transcription Factor", img: "../image/Transcription_Factor.png" },
   { id: "tRNA", name: "tRNA", img: "../image/tRNA.png" },
   { id: "mRNA", name: "mRNA", img: "../image/mRNA.png" },
+  { id: "modification", name: "5' cap & poly A-tail & Splicing", img: "../image/modification2.png" },
+  { id:"amylase", name:"Amylase", img:"../image/amylase.png" },
 
 ];
 
@@ -38,35 +40,50 @@ function genDNA(n=6){
 export const STEPS = [
   {
     id: 1,
-    correctId: 'RNA_Polymerase',
+    correctId: 'Transcription_Factor',
     idleMsg: 'Choose an enzyme to proceed...',
-    okMsg: 'Great! RNA Polymerase is ready to transcribe.',
-    wrongMsg: 'Silly you! RNA Polymerase is not the right enzyme.',
-    image: '../image/transcription_start.jpg'
+    okMsg: 'Great! we noticed the promoter.',
+    wrongMsg: 'Silly you! I dont know where to start.',
+    image: '../image/transcription_03.jpg'
   },
 
   {
     id: 2,
-    correctId: 'helicase',
-    idleMsg: 'Separate the DNA strands.',
+    correctId: 'RNA_Polymerase',
+    idleMsg: 'Lets start the transcription.',
     okMsg: 'Nice! the DNA strands are now separated.',
     wrongMsg: 'Your DNA is still double helix; you cannot proceed the replication like this!',
-    image: '../image/helicase.jpg',
+
+    onCorrect(ctx) {
+      
+      ctx.setSequence(
+        ['../image/transcription_04.jpg','../image/transcription_06.jpg','../image/transcription_07.jpg','../image/transcription_08.jpg', '../image/transcription_09.jpg'],
+        [0,700,1400,2100,2800]
+      );
+    }
   },
 
   {
     id: 3,
-    correctId: 'SSB_Protein',
-    idleMsg: 'The DNA strands seems like rejoining try to do something first.',
-    okMsg: 'Nice! SSB keeps strands apart.',
-    wrongMsg: 'Your DNA strands are rejoining. Try another enzyme.',
-    image: '../image/ssb.jpg'
+    correctId: 'modification',
+    idleMsg: 'Something seems off, may be it requires some modifications?',
+    okMsg: "'5' cap and poly A-tail are added ofc spliced.",
+    wrongMsg: 'No modification yet.',
+
+    onCorrect(ctx) {
+      
+      ctx.setSequence(
+        ['../image/transcription_09.jpg','../image/transcription_10.jpg','../image/transcription_11.jpg','../image/transcription_12.jpg'],
+        [0,1000,2000,3000]
+      );
+    }
+
   },
 
   {
     id: 4,
     correctId: 'primase',
-    idleMsg: 'Enzymes are looking for a place to start.',
+    idleMsg: 'Finished, mRNA is ready to be translated.',
     okMsg: 'Good! Primers are in. Time to add nucleotides!',
     wrongMsg: 'Seems like your enzymes do not know where to begin???',
     image: '../image/primase.jpg'

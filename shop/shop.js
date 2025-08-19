@@ -28,7 +28,8 @@ try {
     { id:"dna_pol_i", name:"DNA Polymerase I", img:"../image/DNA_pol_i.png" },
     { id:"SSB_Protein", name:"SSB Protein", img:"../image/SSB_Protein-fotor-bg-remover-20250811192919.png" },
     { id:"oxidoreductase", name:"Oxidoreductase", img:"../image/Oxidoreductase.png" },
-    { id:"amylase", name:"Amylase", color:"#39B4E6" },
+    { id:"amylase", name:"Amylase", img:"../image/SSB_Protein-fotor-bg-remover-20250811192919.png" },
+    { id: "modification", name: "5' cap & poly A-tail & Splicing", color: red },
   ];
 }
 

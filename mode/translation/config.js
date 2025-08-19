@@ -12,15 +12,12 @@ export const CATALOG = [
   { id: "ribosome",      name: "Ribosome",      img: "../image/ribosome.png" },
   { id: "RNA_Polymerase", name: "RNA Polymerase", img: "../image/RNA_Polymerase.png" },
   { id: "Transcription_Factor", name: "Transcription Factor", img: "../image/Transcription_Factor.png" },
-  { id:"oxidoreductase", name:"Oxidoreductase", img:"../image/Oxidoreductase.png" },
-  { id:"amylase", name:"Amylase", img:"../image/amylase.png" },
-  { id: "modification", name: "5' cap & poly A-tail & Splicing", img: "../image/modification2.png" },
   { id: "tRNA", name: "tRNA", img: "../image/tRNA.png" },
   { id: "mRNA", name: "mRNA", img: "../image/mRNA.png" },
+  { id: "modification", name: "5' cap & poly A-tail & Splicing", img: "../image/modification2.png" },
+  { id:"amylase", name:"Amylase", img:"../image/amylase.png" },
 
 ];
-
-
 
 
 // ยูทิลของโหมดนี้
@@ -41,42 +38,47 @@ function genDNA(n=6){
 export const STEPS = [
   {
     id: 1,
-    correctId: 'topoisomerase',
-    idleMsg: 'Choose an enzyme to proceed...',
-    okMsg: 'Great! DNA is relaxing…',
-    wrongMsg: 'Silly you! DNA is still super coiled.',
+    correctId: 'mRNA',
+    idleMsg: 'Choose mRNA to start...',
+    okMsg: 'Now the mRNA is presented',
+    wrongMsg: 'you need mrna to begin the translation',
+    image: '../image/translation_start.jpg'
+  },
 
+  {
+    id: 2,
+    correctId: 'ribosome',
+    idleMsg: 'e p a sites??.',
+    okMsg: 'Ribosome is coming to the site...',
+    wrongMsg: 'We need some working units/sites',
     onCorrect(ctx) {
       
       ctx.setSequence(
-        ['../image/topo1.jpg','../image/topo2.jpg','../image/topo3.jpg','../image/topo4.jpg','../image/uncoiledDNA.jpg'],
-        [0,400,800,1200,1700]
+        ['../image/translation_01.jpg','../image/translation_02.jpg'],
+        [0,700,1400]
       );
     }
   },
 
   {
-    id: 2,
-    correctId: 'helicase',
-    idleMsg: 'Separate the DNA strands.',
-    okMsg: 'Nice! the DNA strands are now separated.',
-    wrongMsg: 'Your DNA is still double helix; you cannot proceed the replication like this!',
-    image: '../image/helicase.jpg',
-  },
-
-  {
     id: 3,
-    correctId: 'SSB_Protein',
-    idleMsg: 'The DNA strands seems like rejoining try to do something first.',
-    okMsg: 'Nice! SSB keeps strands apart.',
-    wrongMsg: 'Your DNA strands are rejoining. Try another enzyme.',
-    image: '../image/ssb.jpg'
+    correctId: 'tRNA',
+    idleMsg: 'now, there is no-one to bring amino acid.',
+    okMsg: 'Nice! trna is coming with amino acids.',
+    wrongMsg: 'may be adding some amino acids?',
+
+    onCorrect(ctx) {
+      ctx.setSequence(
+        ['../image/translation_03.jpg','../image/translation_04.jpg', '../image/translation_05.jpg', '../image/translation_06.jpg', '../image/translation_07.jpg', '../image/translation_08.jpg', '../image/translation_09.jpg'],
+        [0,1000, 2000, 3000, 4000, 5000, 6000, 7000]
+      );
+    }
   },
 
   {
     id: 4,
     correctId: 'primase',
-    idleMsg: 'Enzymes are looking for a place to start.',
+    idleMsg: 'The translation is happening.',
     okMsg: 'Good! Primers are in. Time to add nucleotides!',
     wrongMsg: 'Seems like your enzymes do not know where to begin???',
     image: '../image/primase.jpg'
