@@ -8,7 +8,7 @@ const cfgMap = {
 };
 
 // โหลด config ตามโหมด
-const { MAX_SCORE, CATALOG, STEPS } = await import(cfgMap[mode]);
+const { MAX_SCORE, CATALOG, STEPS, START_IMAGE} = await import(cfgMap[mode]);
 
 // ------- state -------
 let stepIndex = 0;           // index ของ STEPS
@@ -28,6 +28,11 @@ const userInputEl   = $('#user-input');
 const checkBtn      = $('#check-btn');
 const plusOneEl     = $('#plusOne');
 const scoreValEl = document.getElementById('scoreVal');
+if (START_IMAGE) {
+  imageEl.src = START_IMAGE;
+} else if (STEPS?.[0]?.image) {
+  imageEl.src = STEPS[0].image;
+}
 
 
 // (ถ้ามี track/dots จาก shop ให้คุณ render ตามเดิม)

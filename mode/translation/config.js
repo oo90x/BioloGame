@@ -1,4 +1,5 @@
 export const MAX_SCORE = 3;
+export const START_IMAGE = "../image/topo0.jpg";
 
 // ปุ่ม/ไอคอนที่ใช้ใน shop & track ด้านล่าง (รวมถึง id ที่ใช้ตอบ)
 export const CATALOG = [
