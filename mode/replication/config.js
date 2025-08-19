@@ -1,4 +1,4 @@
-export const MAX_SCORE = 8;
+export const MAX_SCORE = 7;
 
 // ปุ่ม/ไอคอนที่ใช้ใน shop & track ด้านล่าง (รวมถึง id ที่ใช้ตอบ)
 export const CATALOG = [

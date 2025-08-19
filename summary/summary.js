@@ -8,11 +8,11 @@
   const rawMax_translation   = localStorage.getItem('translationMax');
 
   const score_replication = Number.isFinite(+rawScore_replication) ? +rawScore_replication : 0;
-  const max_replication   = Number.isFinite(+rawMax_replication)   ? +rawMax_replication   : 8;
+  const max_replication   = Number.isFinite(+rawMax_replication)   ? +rawMax_replication   : 7;
   const score_transcription = Number.isFinite(+rawScore_transcription) ? +rawScore_transcription : 0;
   const max_transcription   = Number.isFinite(+rawMax_transcription)   ? +rawMax_transcription   : 3;
   const score_translation = Number.isFinite(+rawScore_translation) ? +rawScore_translation : 0;
-  const max_translation   = Number.isFinite(+rawMax_translation)   ? +rawMax_translation   : 8;
+  const max_translation   = Number.isFinite(+rawMax_translation)   ? +rawMax_translation   : 3;
 
   const badge_replication = document.getElementById('scoreBadge_replication');
   badge_replication.textContent = `${score_replication}/${max_replication}`;
