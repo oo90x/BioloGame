@@ -177,3 +177,14 @@ function loadSelected() {
 }
 
 localStorage.setItem('enzymesCatalog', JSON.stringify(CATALOG));
+
+const modeTitles = {
+  replication: "FOR DNA REPLICATION",
+  transcription: "FOR DNA TRANSCRIPTION",
+  translation: "FOR DNA TRANSLATION"
+};
+
+const titleEl = document.getElementById("modeTitle");
+if (titleEl && modeTitles[mode]) {
+  titleEl.textContent = modeTitles[mode];
+}
