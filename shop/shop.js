@@ -1,27 +1,73 @@
-// ---- data ----
-const ENZYMES = [
-  {
-    id: "topoisomerase",
-    name: "Topoisomerase",
-    img: "../image/Topoisomerase.png",
-  },
-  { id: "helicase", name: "Helicase", img: "../image/helicase.png" },
-  { id: "primase", name: "Primase", img: "../image/primase.png" },
-  { id: "ligase", name: "Ligase", img: "../image/ligase.png" },
-  {
-    id: "dna_pol_iii",
-    name: "DNA Polymerase III",
-    img: "../image/DNA_pol_iii.png",
-  },
-  { id: "dna_pol_i", name: "DNA Polymerase I", img: "../image/DNA_pol_i.png" },
-  {
-    id: "SSB_Protein",
-    name: "SSB Protein",
-    img: "../image/SSB_Protein-fotor-bg-remover-20250811192919.png",
-  },
-  { id: "oxidoreductase", name: "Oxidoreductase", img: "../image/Oxidoreductase.png" },
-  { id: "amylase", name: "Amylase", color: "#39B4E6" },
-];
+import { getMode } from '../common/ui.js';
+
+const mode = getMode();
+
+// map mode -> path ของ config
+const cfgMap = {
+  replication: '../mode/replication/config.js',
+  transcription: '../mode/transcription/config.js',
+  translation: '../mode/translation/config.js',
+};
+
+// // โหลด config ของโหมด
+// const { ENZYMES: CATALOG, MAX_SCORE } = await import(cfgMap[mode]);
+
+// // เก็บค่า mode และ max score ไว้ให้ game.js ใช้
+// localStorage.setItem('currentMode', mode);
+// localStorage.setItem(`${mode}Max`, String(MAX_SCORE));
+
+let CATALOG = [];
+let MAX_SCORE = 8; 
+
+try {
+  const mod = await import(cfgMap[mode]);
+  CATALOG = mod.CATALOG;
+  MAX_SCORE = mod.MAX_SCORE ?? MAX_SCORE;
+} catch (e) {
+  console.warn('Config not found, falling back to default ENZYMES.', e);
+  // fallback ชุดเดิมของคุณ
+  CATALOG = [
+    { id:"topoisomerase", name:"Topoisomerase", img:"../image/Topoisomerase.png" },
+    { id:"helicase", name:"Helicase", img:"../image/helicase.png" },
+    { id:"primase", name:"Primase", img:"../image/primase.png" },
+    { id:"ligase", name:"Ligase", img:"../image/ligase.png" },
+    { id:"dna_pol_iii", name:"DNA Polymerase III", img:"../image/DNA_pol_iii.png" },
+    { id:"dna_pol_i", name:"DNA Polymerase I", img:"../image/DNA_pol_i.png" },
+    { id:"SSB_Protein", name:"SSB Protein", img:"../image/SSB_Protein-fotor-bg-remover-20250811192919.png" },
+    { id:"oxidoreductase", name:"Oxidoreductase", img:"../image/Oxidoreductase.png" },
+    { id:"amylase", name:"Amylase", color:"#39B4E6" },
+  ];
+}
+
+localStorage.setItem('currentMode', mode);
+localStorage.setItem(`${mode}Max`, String(MAX_SCORE));
+
+
+
+
+// const ENZYMES = [
+//   {
+//     id: "topoisomerase",
+//     name: "Topoisomerase",
+//     img: "../image/Topoisomerase.png",
+//   },
+//   { id: "helicase", name: "Helicase", img: "../image/helicase.png" },
+//   { id: "primase", name: "Primase", img: "../image/primase.png" },
+//   { id: "ligase", name: "Ligase", img: "../image/ligase.png" },
+//   {
+//     id: "dna_pol_iii",
+//     name: "DNA Polymerase III",
+//     img: "../image/DNA_pol_iii.png",
+//   },
+//   { id: "dna_pol_i", name: "DNA Polymerase I", img: "../image/DNA_pol_i.png" },
+//   {
+//     id: "SSB_Protein",
+//     name: "SSB Protein",
+//     img: "../image/SSB_Protein-fotor-bg-remover-20250811192919.png",
+//   },
+//   { id: "oxidoreductase", name: "Oxidoreductase", img: "../image/Oxidoreductase.png" },
+//   { id: "amylase", name: "Amylase", color: "#39B4E6" },
+// ];
 
 const LS_KEY = "selectedEnzymes";
 
@@ -30,7 +76,7 @@ let selected = loadSelected();
 
 // render grid
 const grid = document.getElementById("grid");
-grid.innerHTML = ENZYMES.map((e) => cardHTML(e)).join("");
+grid.innerHTML = CATALOG.map((e) => cardHTML(e)).join("");
 attachCardHandlers();
 
 // render dots
@@ -49,9 +95,11 @@ document.getElementById('clearBtn').addEventListener('click', (e) => {
 // go button
 document.getElementById("goBtn").addEventListener("click", (e) => {
   e.preventDefault();
-  // persist and go
   saveSelected();
-  window.location.href = '../game/game.html';
+    // เซฟทั้ง 2 อย่างให้ game อ่าน
+  localStorage.setItem('enzymesCatalog', JSON.stringify(CATALOG));
+  localStorage.setItem('selectedEnzymes', JSON.stringify(selected));
+  window.location.href = `../game/game.html?mode=${encodeURIComponent(mode)}` ;
 });
 
 
@@ -128,7 +176,7 @@ function renderDots() {
   const track = document.getElementById("dotTrack");
   track.innerHTML = "";
   selected.forEach((id) => {
-    const e = ENZYMES.find((x) => x.id === id);
+    const e = CATALOG.find((x) => x.id === id);
     if (!e) return;
 
     if (e.img) {
@@ -161,4 +209,4 @@ function loadSelected() {
   }
 }
 
-localStorage.setItem('enzymesCatalog', JSON.stringify(ENZYMES));
+localStorage.setItem('enzymesCatalog', JSON.stringify(CATALOG));

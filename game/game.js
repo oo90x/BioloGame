@@ -194,7 +194,6 @@ function showPlusOne(){
 function awardIfFirstAttempt(){
   if (firstAttempt){
     score += 1;
-    updateScoreUI();
     showPlusOne();
     firstAttempt = false;  
 
@@ -211,7 +210,6 @@ actions.querySelectorAll('.enzyme-btn').forEach(btn => {
     const id = btn.getAttribute('data-id');
 
     if (currentStep === 5 && awaitingComplement) {
-      // instructions.textContent = 'Enter the complementary strand and press CHECK.';instructions.style.color = 'green';
       return; // ไม่ทำอะไรต่อ
     }
     
@@ -224,7 +222,6 @@ actions.querySelectorAll('.enzyme-btn').forEach(btn => {
     if (isCorrect) {
       btn.classList.add('correct');
       awardIfFirstAttempt();
-      // if (currentStep !== 5) awardIfFirstAttempt();
       setTimeout(() => {
         chooseEnzyme(id);
         btn.classList.remove('correct');
