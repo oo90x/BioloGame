@@ -85,6 +85,7 @@ export const STEPS = [
     correctId: 'dna_pol_iii',
     idleMsg: 'Time to add nucleotides!',
     okMsg: 'Good! adding complementary bases.',
+    wrongMsg: 'The strands are not yet completed.',
     requiresInput: true,
     prompt: 'Enter the complementary strand and press CHECK.',
     // เรียกตอนเข้าสเต็ปนี้ (หลังตอบเอนไซม์ถูก)
